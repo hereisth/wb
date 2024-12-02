@@ -17,6 +17,12 @@
 /.next/
 /out/
 
+# vscode
+/.vscode/
+
+# webstorm
+/.idea/
+
 # production
 /build
 
