@@ -6,6 +6,7 @@ import { EmptyBoards } from "./empty-boards";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { BoardCard } from "./board-card";
+import { NewBoardButton } from "./new-board-button";
 
 interface BoardListPorps {
   orgId: string;
@@ -22,7 +23,24 @@ export const BoardList = ({ orgId, query }: BoardListPorps) => {
   // if data is not exist or empty, null will returned by convex
   if (data == undefined) {
     return (
-      <div className="flex h-full items-center justify-center">Loading</div>
+      <div>
+        <h2 className="text-3xl">
+          {query.favorites ? "Favorite boards" : "Team boards"}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-6 pb-10">
+          <NewBoardButton orgId={orgId} disabled />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+          <BoardCard.Skeleton />
+        </div>
+      </div>
     );
   }
 
@@ -47,6 +65,7 @@ export const BoardList = ({ orgId, query }: BoardListPorps) => {
         {query.favorites ? "Favorite boards" : "Team boards"}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-6 pb-10">
+        <NewBoardButton orgId={orgId} />
         {data.map((board) => (
           <BoardCard
             key={board._id}
