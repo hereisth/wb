@@ -7,10 +7,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
+import { ConfirmModel } from "@/components/confirm-model";
 import { Link2, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { api } from "@/convex/_generated/api";
+import { Button } from "./ui/button";
 
 interface ActionsProps {
   children: React.ReactNode;
@@ -27,7 +29,7 @@ export const Actions = ({
   id,
   title,
 }: ActionsProps) => {
-  const { mutate: removeBoard , pending} = useApiMutation(api.board.remove);
+  const { mutate: removeBoard, pending } = useApiMutation(api.board.remove);
 
   const onCopyLink = () => {
     navigator.clipboard
@@ -55,13 +57,17 @@ export const Actions = ({
           <Link2 className="h-4 w-4 mr-2" />
           Copy board link
         </DropdownMenuItem>
-        <DropdownMenuItem
-          className="p-3 cursor-pointer"
-          onClick={onDelete}
+
+        <ConfirmModel
+          header="Delete board?"
+          description="This will delete the board and all of its contents permanently."
+          onConfirm={onDelete}
         >
-          <Trash2 className="h-4 w-4 mr-2" />
-          Delete board
-        </DropdownMenuItem>
+          <Button variant="ghost" className="p-3 cursor-pointer text-sm w-full justify-start font-normal">
+            <Trash2 className="h-4 w-4 mr-2" />
+            Delete board
+          </Button>
+        </ConfirmModel>
       </DropdownMenuContent>
     </DropdownMenu>
   );
