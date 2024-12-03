@@ -7,12 +7,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { ConfirmModel } from "@/components/confirm-model";
-import { Link2, Trash2 } from "lucide-react";
+import { ConfirmModel } from "@/components/confirm-modal";
+import { Link2, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { api } from "@/convex/_generated/api";
 import { Button } from "./ui/button";
+import { useRenameModel } from "@/store/use-rename-modal";
 
 interface ActionsProps {
   children: React.ReactNode;
@@ -29,6 +30,7 @@ export const Actions = ({
   id,
   title,
 }: ActionsProps) => {
+  const { onOpen } = useRenameModel();
   const { mutate: removeBoard, pending } = useApiMutation(api.board.remove);
 
   const onCopyLink = () => {
@@ -53,17 +55,31 @@ export const Actions = ({
         onClick={(e) => e.stopPropagation()}
         className="w-60"
       >
+        {/* Copy link */}
         <DropdownMenuItem className="p-3 cursor-pointer" onClick={onCopyLink}>
           <Link2 className="h-4 w-4 mr-2" />
           Copy board link
         </DropdownMenuItem>
 
+        {/* Rename board */}
+        <DropdownMenuItem
+          className="p-3 cursor-pointer"
+          onClick={() => onOpen(id, title)}
+        >
+          <Pencil className="h-4 w-4 mr-2" />
+          Rename board
+        </DropdownMenuItem>
+
+        {/* Delete board */}
         <ConfirmModel
           header="Delete board?"
           description="This will delete the board and all of its contents permanently."
           onConfirm={onDelete}
         >
-          <Button variant="ghost" className="p-3 cursor-pointer text-sm w-full justify-start font-normal">
+          <Button
+            variant="ghost"
+            className="p-3 cursor-pointer text-sm w-full justify-start font-normal"
+          >
             <Trash2 className="h-4 w-4 mr-2" />
             Delete board
           </Button>
