@@ -1,4 +1,4 @@
-export default {
+ const config =   {
     providers: [
         {
             domain: "https://coherent-unicorn-35.clerk.accounts.dev",
@@ -6,3 +6,4 @@ export default {
         },
     ]
 };
+export default config;
