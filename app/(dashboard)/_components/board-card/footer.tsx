@@ -18,6 +18,13 @@ export const Footer = ({
   onClick,
   disabled,
 }: FooterProps) => {
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    onClick();
+  };
+
   return (
     <div className="relative bg-white p-3">
       <p className="text-[13px] truncate max-w-[calc(100%-20px)]">{title}</p>
@@ -25,7 +32,7 @@ export const Footer = ({
         {authorLable}, {craetedAtLabel}
       </p>
       <button
-        onClick={onClick}
+        onClick={handleClick}
         disabled={disabled}
         className={cn(
           "absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition hover:text-blue-600 text-muted-foreground ",

@@ -1,6 +1,7 @@
 // for query all the boards for a given organization
 import { v } from "convex/values";
 import { query } from "./_generated/server";
+import { favorite } from "./board";
 
 export const get = query({
   args: {
@@ -19,6 +20,24 @@ export const get = query({
       .order("desc")
       .collect();
 
-    return boards;
+    // fetch the favorite relation for each board
+    const boardsWithFavoriteRelation = await Promise.all(
+      boards.map(async (board) => {
+        const favorite = await ctx.db
+          .query("userFavorites")
+          .withIndex("by_user_board", (q) => q
+            .eq("userId", identity.subject)
+            .eq("boardId", board._id)
+          )
+          .unique();
+
+        return {
+          ...board,
+          isFavorite: !!favorite
+        };
+      })
+    );
+
+    return boardsWithFavoriteRelation;
   },
 });
