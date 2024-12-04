@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "npm run dev with .zshrc",
+      "type": "shell",
+      "command": "zsh",
+      "args": [
+        "-c",
+        "source ~/.zshrc && npm run dev"
+      ],
+      "group": "build",
+      "isBackground": true
+    },
+    {
+      "label": "npx convex dev with .zshrc",
+      "type": "shell",
+      "command": "zsh",
+      "args": [
+        "-c",
+        "source ~/.zshrc && npx convex dev"
+      ],
+      "group": "build",
+      "isBackground": true
+    },
+    {
+      "label": "Start Both",
+      "dependsOn": [
+        "npm run dev with .zshrc",
+        "npx convex dev with .zshrc"
+      ]
+    }
+  ]
+}
