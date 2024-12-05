@@ -17,7 +17,7 @@ interface BoardListPorps {
 }
 
 export const BoardList = ({ orgId, query }: BoardListPorps) => {
-  const data = useQuery(api.boards.get, { orgId });
+  const data = useQuery(api.boards.get, { orgId, ...query });
 
   // convex returns undefined if the query is not yet resolved
   // if data is not exist or empty, null will returned by convex
