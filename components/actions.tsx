@@ -37,7 +37,7 @@ export const Actions = ({
     navigator.clipboard
       .writeText(`${window.location.origin}/board/${id}`)
       .then(() => toast.success("Link copied to clipboard"))
-      .then(() => toast.error("Link copy failed"));
+      .catch(() => toast.error("Link copy failed"));
   };
 
   const onDelete = () => {
