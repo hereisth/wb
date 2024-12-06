@@ -2,7 +2,7 @@
 
 import { useOrganization } from "@clerk/nextjs";
 import { EmptyOrg } from "./_components/empty-org";
-import { Usable, use } from "react";
+import { use } from "react";
 import { BoardList } from "./_components/board-list";
 
 type SearchParams = {
@@ -11,20 +11,19 @@ type SearchParams = {
 };
 
 interface DashboardPageProps {
-  searchParams: SearchParams;
+  searchParams: Promise<SearchParams>;
 }
 
-export default function DashboardPage({ searchParams }: DashboardPageProps) {
+export default function DashboardPage(props: DashboardPageProps) {
+  const searchParams = use(props.searchParams);
   const { organization } = useOrganization();
-  //TODO: `use` according to nextjs doc, BUT WHY???
-  const searchParamsUsed = use(searchParams as Usable<SearchParams>);
 
   return (
     <div className="flex-1 h-[calc(100%-80px)]">
       {!organization ? (
         <EmptyOrg />
       ) : (
-        <BoardList orgId={organization.id} query={searchParamsUsed} />
+        <BoardList orgId={organization.id} query={searchParams} />
       )}
     </div>
   );

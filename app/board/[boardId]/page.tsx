@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 
 import { Canvas } from "./_components/canvas";
 import { Room } from "@/components/room";
@@ -9,10 +10,11 @@ type SearchParams = {
 };
 
 interface BoardIdPageProps {
-  params: SearchParams;
+  params: Promise<SearchParams>;
 }
 
-const BoardIdPage = ({ params }: BoardIdPageProps) => {
+const BoardIdPage = (props: BoardIdPageProps) => {
+  const params = use(props.params);
   const { boardId } = params;
 
   return (
