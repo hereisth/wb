@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   // Use a naming pattern to allow access to rooms with wildcards
   // Giving the user read access on their org, and write access on their group
   if (room) {
-    session.allow(room, session.READ_ACCESS);
+    session.allow(room, session.FULL_ACCESS);
   }
 
   // Authorize the user and return the result
