@@ -77,7 +77,6 @@ export enum Side {
   Right = 8,
 }
 
-
 export type Color = {
   r: number;
   g: number;
@@ -114,7 +113,7 @@ export type CanvasState =
   }
   | {
     mode: CanvasMode.Inserting;
-    layer: LayerType.Ellipse | LayerType.Rectangle | LayerType.Text | LayerType.Note;
+    layerType: LayerType.Ellipse | LayerType.Rectangle | LayerType.Text | LayerType.Note;
   }
   | {
     mode: CanvasMode.Pencil;
@@ -129,7 +128,4 @@ export type CanvasState =
     corner: Side;
   }
 
-
-
-
-
+export type Layer = RectangleLayer | EllipseLayer | PathLayer | TextLayer | NoteLayer;
