@@ -21,6 +21,7 @@ import { CanvasMode } from "@/types/canvas";
 import type { Camera, CanvasState, Color, Layer, LayerType, Point } from "@/types/canvas";
 import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./layer-preview";
+import { SelectionBox } from "./slections-box";
 
 interface CanvasProps {
   boardId: string;
@@ -178,6 +179,9 @@ export const Canvas = ({ boardId }: CanvasProps) => {
               selectionColor={layerIdsToColorSelection[layerId]}
             />
           ))}
+          <SelectionBox
+            onResizeHandlePointerDown={() => { }}
+          />
           <CursorPresence />
         </g>
       </svg>
