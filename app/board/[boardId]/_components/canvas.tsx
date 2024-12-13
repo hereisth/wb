@@ -22,6 +22,7 @@ import type { Camera, CanvasState, Color, Layer, LayerType, Point, Side, XYWH } 
 import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "./slections-box";
+import { SelectionTool } from "./selection-tools";
 
 interface CanvasProps {
   boardId: string;
@@ -257,6 +258,10 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         redo={history.redo}
         canUndo={canUndo}
         canRedo={canRedo}
+      />
+      <SelectionTool
+        camera={camera}
+        setLastUsedColor={setLastUsedColor}
       />
       <svg
         className="w-[100vw] h-[100vh]"
