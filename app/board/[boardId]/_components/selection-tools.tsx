@@ -7,7 +7,7 @@ import { useSelectionBounds } from "@/hooks/use-selection-bounds";
 import { ColorPicker } from "./color-picker";
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
-import { Trash2Icon } from "lucide-react";
+import { BringToFront, SendToBack, Trash2Icon } from "lucide-react";
 import { useDeleteLayers } from "@/hooks/use-delete-layers";
 
 interface SelectionToolProps {
@@ -36,6 +36,56 @@ export const SelectionTool = memo(({
     [selection, setLastUsedColor]
   );
 
+  const sendToBack = useMutation((
+    { storage }
+  ) => {
+    const liveLayerIds = storage.get("layerIds");
+    const indices: number[] = [];
+    const arr = liveLayerIds.toArray();
+
+    if (!selection) return;
+
+    // get indices of selection
+    for (let i = 0; i < arr.length; i++) {
+      if (selection.includes(arr[i])) {
+        indices.push(i);
+      }
+    }
+
+    // move selection to back
+    for (let i = 0; i < indices.length; i++) {
+      liveLayerIds.move(indices[i], i);
+    }
+
+  },
+    [selection]
+  );
+
+  const moveToFront = useMutation((
+    { storage }
+  ) => {
+    const liveLayerIds = storage.get("layerIds");
+    const indices: number[] = [];
+    const arr = liveLayerIds.toArray();
+
+    if (!selection) return;
+
+    // get indices of selection
+    for (let i = 0; i < arr.length; i++) {
+      if (selection.includes(arr[i])) {
+        indices.push(i);
+      }
+    }
+
+    // move selection to front
+    for (let i = indices.length - 1; i >= 0; i--) {
+      liveLayerIds.move(indices[i], arr.length - 1 - (indices.length - 1 - i));
+    }
+
+  },
+    [selection]
+  );
+
   if (!selectionBounds) return null;
 
   const x = selectionBounds.width / 2 + selectionBounds.x + camera.x;
@@ -52,10 +102,32 @@ export const SelectionTool = memo(({
         onChange={setFill}
       />
 
+      <div className="flex flex-col gap-y-0.5">
+        <Hint label="bring to front">
+          <Button
+            variant="board"
+            size="icon"
+            onClick={moveToFront}
+          >
+            <BringToFront className="w-4 h-4" />
+          </Button>
+        </Hint>
+
+        <Hint label="send to back">
+          <Button
+            variant="board"
+            size="icon"
+            onClick={sendToBack}
+          >
+            <SendToBack className="w-4 h-4" />
+          </Button>
+        </Hint>
+      </div>
+
       <div className="flex items-center pl-2 ml-2 border-l border-neutral-200">
         <Hint label="Delete">
           <Button
-            variant="ghost"
+            variant="board"
             size="icon"
             onClick={deleteLayers}
           >
