@@ -5,6 +5,7 @@ import { useStorage } from "@liveblocks/react/suspense";
 import React, { memo } from "react";
 import { Rectangle } from "./rectangle";
 import { Ellipse } from "./ellipse";
+import { Text } from "./text";
 
 interface LayerPreviewProps {
   id: string;
@@ -42,7 +43,14 @@ export const LayerPreview = memo(({
         />
       );
     case LayerType.Text:
-      return (<div> Text</div>);
+      return (
+        <Text
+          id={id}
+          layer={layer}
+          onPointerDown={onLayerPointerDown}
+          selectionColor={selectionColor}
+        />
+      );
     case LayerType.Note:
       return (<div> Note</div>);
     default:
