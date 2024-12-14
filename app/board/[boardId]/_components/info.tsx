@@ -46,7 +46,7 @@ export const Info = ({ boardId }: InfoProps) => {
 
 
   return (
-    <div className="absolute top-2 left-2  rounded-md px-1.5 h-12 flex items-center shadow-md">
+    <div className="absolute top-2 left-2  rounded-md px-1.5 h-12 flex items-center shadow-md bg-white">
       <Hint label="Go to home" side="bottom" sideOffset={10}>
         <Button asChild className="px-2" variant="board">
           <Link href="/">
