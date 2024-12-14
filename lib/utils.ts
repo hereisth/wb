@@ -1,4 +1,4 @@
-import { Camera, Color, Layer, Point, Side, XYWH } from "@/types/canvas";
+import { Camera, Color, Layer, LayerType, Point, Side, XYWH } from "@/types/canvas";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -95,3 +95,23 @@ export function findIntersectingLayersWithRectangle(
   }
   return ids;
 }
+
+export function getContrastingColor(color: Color) {
+  const luminance = 0.299 * color.r + 0.587 * color.g + 0.114 * color.b;
+  return luminance > 182 ? "#000" : "#fff";
+}
+
+
+const MAX_FONT_SIZE = 96;
+
+export function calculateFontSize(
+  width: number,
+  height: number,
+  textLayer: LayerType.Text | LayerType.Note
+) {
+  const sacleFactor = textLayer === LayerType.Text ? 0.5 : 0.15;
+  const fontSizeBasedOnHeight = height * sacleFactor;
+  const fontSizeBasedOnWidth = width * sacleFactor;
+  return Math.min(fontSizeBasedOnHeight, fontSizeBasedOnWidth, MAX_FONT_SIZE);
+};
+

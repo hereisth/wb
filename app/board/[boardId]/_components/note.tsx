@@ -1,27 +1,28 @@
-import { calculateFontSize, cn, colorToCss } from "@/lib/utils";
-import { TextLayer } from "@/types/canvas";
-import { useMutation } from "@liveblocks/react/suspense";
 import { Kalam } from "next/font/google";
+import { useMutation } from "@liveblocks/react/suspense";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
+
+import { calculateFontSize, cn, colorToCss, getContrastingColor } from "@/lib/utils";
+import { NoteLayer } from "@/types/canvas";
 
 const font = Kalam({
   subsets: ["latin"],
   weight: "400",
 });
 
-interface TextProps {
+interface NoteProps {
   id: string;
-  layer: TextLayer;
+  layer: NoteLayer;
   onPointerDown: (e: React.PointerEvent, layerId: string) => void;
   selectionColor?: string;
 }
 
-export const Text = ({
+export const Note = ({
   id,
   layer,
   onPointerDown,
   selectionColor
-}: TextProps) => {
+}: NoteProps) => {
 
   const { x, y, width, height, fill, value } = layer;
 
@@ -44,19 +45,21 @@ export const Text = ({
       width={width}
       height={height}
       onPointerDown={(e) => onPointerDown(e, id)}
+      className="shadow-md drop-shadow-xl"
       style={{
-        outline: selectionColor ? `1px solid ${selectionColor}` : "none"
+        outline: selectionColor ? `1px solid ${selectionColor}` : "none",
+        backgroundColor: fill ? colorToCss(fill) : "#000",
       }}
     >
       <ContentEditable
         html={value || "Text"}
         onChange={handleContentChange}
         className={cn(
-          "h-full w-full flex items-center justify-center text-center drop-shadow-md outline-none",
+          "h-full w-full flex items-center justify-center text-center outline-none",
           font.className
         )}
         style={{
-          color: fill ? colorToCss(fill) : "#000",
+          color: getContrastingColor(fill),
           fontSize: calculateFontSize(width, height, layer.type),
         }}
       />
