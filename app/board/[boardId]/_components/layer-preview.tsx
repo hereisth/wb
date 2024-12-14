@@ -4,6 +4,7 @@ import { LayerType } from "@/types/canvas";
 import { useStorage } from "@liveblocks/react/suspense";
 import React, { memo } from "react";
 import { Rectangle } from "./rectangle";
+import { Ellipse } from "./ellipse";
 
 interface LayerPreviewProps {
   id: string;
@@ -32,7 +33,14 @@ export const LayerPreview = memo(({
         />
       );
     case LayerType.Ellipse:
-      return (<div> Ellipse</div>);
+      return (
+        <Ellipse
+          id={id}
+          layer={layer}
+          onPointerDown={onLayerPointerDown}
+          selectionColor={selectionColor}
+        />
+      );
     case LayerType.Text:
       return (<div> Text</div>);
     case LayerType.Note:
