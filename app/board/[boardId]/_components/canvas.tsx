@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 import {
   useCanRedo,
@@ -239,7 +239,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
   ) => {
 
     const liveLayers = storage.get("layers");
-    const { pencilDraft, penColor } = self.presence;
+    const { pencilDraft} = self.presence;
 
     if (
       pencilDraft == null ||
